@@ -23,7 +23,7 @@ jobs:
           SH_CLIENT_SECRET: ${{ secrets.SH_CLIENT_SECRET }}
           PLOT_LAT: "0.81601"
           PLOT_LON: "101.97512"
-          BOX_HALF_M: "700"
+          BOX_HALF_M: "800"
         run: python sawit_satelit.py
       - name: Commit and push hasil
         run: |
