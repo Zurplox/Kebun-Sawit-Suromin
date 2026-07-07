@@ -144,7 +144,7 @@
   /* Fullscreen viewer */
   .viewer{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.96);display:none;touch-action:none;overflow:hidden;}
   .viewer.open{display:block;}
-  .viewer .vimg{position:absolute;top:50%;left:50%;transform-origin:center center;will-change:transform;user-select:none;-webkit-user-drag:none;max-width:none;}
+  .viewer .vimg{position:absolute;top:50%;left:50%;transform-origin:center center;will-change:transform;user-select:none;-webkit-user-drag:none;max-width:92vw;max-height:80vh;width:auto;height:auto;}
   .viewer .vclose{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:2;width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .viewer .vhint{position:absolute;bottom:calc(128px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#9aa49c;font-size:13px;z-index:2;pointer-events:none;}
   .vadjust{position:absolute;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:4;background:rgba(12,15,13,.9);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:12px 16px;display:flex;flex-direction:column;gap:6px;max-width:520px;margin:0 auto;}
