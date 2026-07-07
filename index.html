@@ -486,7 +486,7 @@
     var panel=el("div","dd-panel");
     opts.forEach(function(o){
       var op=el("div","dd-opt"+(o.value===value?" sel":"")); op.textContent=o.label;
-      op.onclick=function(ev){ev.stopPropagation(); closeAll(); onChange(o.value);};
+      op.onclick=function(ev){ev.stopPropagation(); closeAll(); var _a=panel.querySelectorAll(".dd-opt"); for(var _i=0;_i<_a.length;_i++)_a[_i].classList.remove("sel"); op.classList.add("sel"); if(btn.firstChild)btn.firstChild.nodeValue=o.label; onChange(o.value);};
       panel.appendChild(op);
     });
     btn.onclick=function(ev){ev.stopPropagation(); var wasOpen=dd.classList.contains("open"); closeAll(); if(!wasOpen) dd.classList.add("open");};
