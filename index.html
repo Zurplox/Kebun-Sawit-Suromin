@@ -329,8 +329,7 @@
     if(!h){a.textContent="";return;}
     if(h.alert){ a.classList.add("red");
       a.textContent="\u26a0\ufe0f NDVI turun "+h.alert.drop+" ("+h.alert.from+" \u2192 "+h.alert.to+") sejak "+h.alert.since; }
-    else if(h.current!=null){ a.classList.add("green");
-      a.textContent="\u2705 NDVI rata-rata plot: "+h.current+" (stabil)"; }
+
   }
 
   // ===== TABS =====
@@ -467,7 +466,7 @@
   function markStrip(){var fr=document.querySelectorAll("#anStrip .fr");for(var i=0;i<fr.length;i++)fr[i].classList.toggle("act",i===state.an.i);
     var act=document.querySelector("#anStrip .fr.act"); if(act&&act.scrollIntoView) act.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});}
   function step(d){var n=frames().length; if(!n)return; state.an.i=(state.an.i+d+n)%n; showFrame(); markStrip();}
-  function speedMs(){return 1600 - (state.an.speed-1)*150;} // 1->1600ms .. 10->250ms
+  function speedMs(){return Math.round(2000 - (state.an.speed-1)*(1500/9));} // 1->2000ms(2s) .. 10->500ms(0.5s)
   function startPlay(){state.an.playing=true; setPlayIcon(); state.an.timer=setInterval(function(){step(1);}, speedMs());}
   function stopPlay(){state.an.playing=false; if(state.an.timer){clearInterval(state.an.timer);state.an.timer=null;} setPlayIcon();}
   function togglePlay(){ state.an.playing?stopPlay():startPlay(); }
