@@ -153,7 +153,7 @@ def bbox_from_center(lat, lon, half_m):
 
 
 # ---- Kunci koordinat & zoom untuk SEMUA tanggal (anti-geser) ----
-GEO_SIG = "%.6f,%.6f,%.1f" % (LAT, LON, BOX_HALF_M)
+GEO_SIG = "%.6f,%.6f,%.1f|cap-top" % (LAT, LON, BOX_HALF_M)
 
 
 def geo_ok(folder):
@@ -304,7 +304,7 @@ def load_font(size):
 
 
 def finalize(path, lines, factor):
-    """Perbesar tajam (nearest) + cap beberapa baris tanggal di pojok kiri-bawah."""
+    """Perbesar tajam (nearest) + cap beberapa baris tanggal di pojok kiri-atas."""
     im = Image.open(path).convert("RGB")
     w, h = im.size
     im = im.resize((w * factor, h * factor), Image.NEAREST)
@@ -323,8 +323,8 @@ def finalize(path, lines, factor):
     n = len(lines)
     box_w = max(widths) + 2 * pad
     box_h = n * fs + (n - 1) * gap + 2 * pad
-    d.rectangle([0, H - box_h, box_w, H], fill=(0, 0, 0))
-    y = H - box_h + pad
+    d.rectangle([0, 0, box_w, box_h], fill=(0, 0, 0))
+    y = pad
     for ln in lines:
         d.text((pad, y), ln, fill=(255, 255, 255), font=font)
         y += fs + gap
