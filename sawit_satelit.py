@@ -180,6 +180,8 @@ def scene_info(token, days, mode):
         "datetime": from_d.isoformat() + "T00:00:00Z/" + to_d.isoformat() + "T23:59:59Z",
         "collections": ["sentinel-2-l2a"],
         "limit": 100,
+        # Selalu urutkan terbaru dulu supaya scene paling baru tak terpotong limit.
+        "sortby": [{"field": "datetime", "direction": "desc"}],
     }
     req = urllib.request.Request(
         CATALOG_URL, data=json.dumps(body).encode(),
@@ -521,6 +523,8 @@ def list_scenes(token, days):
         "datetime": from_d.isoformat() + "T00:00:00Z/" + to_d.isoformat() + "T23:59:59Z",
         "collections": ["sentinel-2-l2a"],
         "limit": 100,
+        # Selalu urutkan terbaru dulu supaya scene paling baru tak terpotong limit.
+        "sortby": [{"field": "datetime", "direction": "desc"}],
     }
     req = urllib.request.Request(
         CATALOG_URL, data=json.dumps(body).encode(),
@@ -637,7 +641,15 @@ def main():
 
     # 3) SNAPSHOT TERBARU (main day = scene paling baru) + layer bebas-awan & NDMI/NDRE
     mr_folder = os.path.join("citra", mr_iso)
-    cf_label, cf_cc, cf_iso = scene_info(token, CLOUDFREE_DAYS, "latestClear")
+    # Tanggal "bebas awan" diambil dari DAFTAR scene yang sama (scenes) agar konsisten
+    # dengan "terbaru". Pilih tanggal TERBARU yang awannya <= CLOUDFREE_MAX_CC.
+    # Ini menjamin cf_iso <= mr_iso (mustahil "bebas awan" lebih baru dari "terbaru").
+    clear_scenes = [(d, c) for d, c in scenes if c is not None and c <= CLOUDFREE_MAX_CC]
+    if clear_scenes:
+        cf_iso, cf_cc = clear_scenes[-1]
+    else:
+        cf_iso, cf_cc = min(scenes, key=lambda t: 999 if t[1] is None else t[1])
+    cf_label = nice_date(cf_iso)
     paths = []
     metas_latest = {}
     for name in ("1_warna_asli_terbaru.png", "2_ndvi_terbaru.png"):
